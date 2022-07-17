@@ -1,15 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dardo-na <dardo-na@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/11 22:01:59 by dardo-na          #+#    #+#             */
-/*   Updated: 2022/07/16 23:52:31 by dardo-na         ###   ########.fr       */
+/*   Created: 2022/07/16 23:53:58 by dardo-na          #+#    #+#             */
+/*   Updated: 2022/07/16 23:54:23 by dardo-na         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "get_next_line.h"
+
+#include "get_next_line_bonus.h"
 #include <unistd.h>
 //#include <stdio.h>
 //#include <fcntl.h>
@@ -41,15 +42,15 @@ char	*ft_read_to_left_str(int fd, char *left_str)
 char	*get_next_line(int fd)
 {
 	char		*line;
-	static char	*left_str;
+	static char	*left_str[4096];
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (0);
-	left_str = ft_read_to_left_str(fd, left_str);
-	if (!left_str)
+	left_str[fd] = ft_read_to_left_str(fd, left_str[fd]);
+	if (!left_str[fd])
 		return (NULL);
-	line = ft_get_line(left_str);
-	left_str = ft_new_left_str(left_str);
+	line = ft_get_line(left_str[fd]);
+	left_str[fd] = ft_new_left_str(left_str[fd]);
 	return (line);
 }
 

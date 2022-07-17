@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dardo-na <dardo-na@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/11 22:02:45 by dardo-na          #+#    #+#             */
-/*   Updated: 2022/07/16 23:52:56 by dardo-na         ###   ########.fr       */
+/*   Created: 2022/07/16 23:53:18 by dardo-na          #+#    #+#             */
+/*   Updated: 2022/07/16 23:53:37 by dardo-na         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 size_t	ft_strlen(char *s)
 {

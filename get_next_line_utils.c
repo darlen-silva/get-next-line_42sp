@@ -6,7 +6,7 @@
 /*   By: dardo-na <dardo-na@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 22:02:45 by dardo-na          #+#    #+#             */
-/*   Updated: 2022/07/16 23:52:56 by dardo-na         ###   ########.fr       */
+/*   Updated: 2022/07/23 02:42:31 by dardo-na         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	*ft_strchr(char *s, int c)
 		return (0);
 	if (c == '\0')
 		return ((char *)&s[ft_strlen(s)]);
-	while (s[i] != '\0')
+	while (s[i])
 	{
 		if (s[i] == (char) c)
 			return ((char *)&s[i]);
@@ -74,12 +74,12 @@ char	*ft_get_line(char *left_str)
 	char	*str;
 
 	i = 0;
-	if (left_str == NULL)
+	if (!left_str[i])
 		return (NULL);
 	while (left_str[i] && left_str[i] != '\n')
 		i++;
 	str = (char *)malloc(sizeof(char) * (i + 2));
-	if (str == NULL)
+	if (!str)
 		return (NULL);
 	i = 0;
 	while (left_str[i] && left_str[i] != '\n')
@@ -89,7 +89,7 @@ char	*ft_get_line(char *left_str)
 	}
 	if (left_str[i] == '\n')
 	{
-		str[i] = '\n';
+		str[i] = left_str[i];
 		i++;
 	}
 	str[i] = '\0';

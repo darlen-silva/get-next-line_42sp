@@ -6,14 +6,11 @@
 /*   By: dardo-na <dardo-na@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 23:53:58 by dardo-na          #+#    #+#             */
-/*   Updated: 2022/07/16 23:54:23 by dardo-na         ###   ########.fr       */
+/*   Updated: 2022/07/23 04:03:45 by dardo-na         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
-// #include <unistd.h>
-// #include <stdio.h>
-// #include <fcntl.h>
 
 char	*ft_read_str(int fd, char *one_str)
 {

@@ -6,14 +6,11 @@
 /*   By: dardo-na <dardo-na@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 22:01:59 by dardo-na          #+#    #+#             */
-/*   Updated: 2022/07/16 23:52:31 by dardo-na         ###   ########.fr       */
+/*   Updated: 2022/07/23 04:03:31 by dardo-na         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-// #include <unistd.h>
-// #include <stdio.h>
-// #include <fcntl.h>
 
 char	*ft_read_to_str(int fd, char *str)
 {
@@ -47,7 +44,7 @@ char	*get_next_line(int fd)
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	str = ft_read_to_str(fd, str);
-	if (str == NULL)
+	if (!str)
 		return (NULL);
 	line = ft_get_line(str);
 	str = ft_new_str(str);

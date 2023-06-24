@@ -6,13 +6,13 @@
 /*   By: dardo-na <dardo-na@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 22:01:59 by dardo-na          #+#    #+#             */
-/*   Updated: 2022/07/23 04:03:31 by dardo-na         ###   ########.fr       */
+/*   Updated: 2023/06/23 22:14:23 by dardo-na         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*ft_read_to_str(int fd, char *str)
+static char	*parse_string_from_read(int fd, char *str)
 {
 	char	*buff;
 	int		n_bytes;
@@ -30,7 +30,7 @@ char	*ft_read_to_str(int fd, char *str)
 			return (NULL);
 		}
 		buff[n_bytes] = '\0';
-		str = ft_strjoin(str, buff);
+		str = join_strings(str, buff, n_bytes);
 	}
 	free(buff);
 	return (str);
@@ -39,14 +39,18 @@ char	*ft_read_to_str(int fd, char *str)
 char	*get_next_line(int fd)
 {
 	char		*line;
+	int			len;
 	static char	*str;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	str = ft_read_to_str(fd, str);
+	str = parse_string_from_read(fd, str);
 	if (!str)
 		return (NULL);
-	line = ft_get_line(str);
-	str = ft_new_str(str);
+	len = 0;
+	while (str[len] && str[len] != '\n')
+		len++;
+	line = parse_line(str, len);
+	str = new_string(str, len);
 	return (line);
 }

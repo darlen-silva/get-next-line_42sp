@@ -6,7 +6,7 @@
 /*   By: dardo-na <dardo-na@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 22:03:09 by dardo-na          #+#    #+#             */
-/*   Updated: 2022/07/16 23:51:45 by dardo-na         ###   ########.fr       */
+/*   Updated: 2023/06/23 22:54:14 by dardo-na         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,21 +17,17 @@
 # include <unistd.h>
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 1000
+#  define BUFFER_SIZE 42
 # endif
 
 char	*get_next_line(int fd);
 
-char	*ft_read_to_str(int fd, char *str);
-
 char	*ft_strchr(char *s, int c);
 
-size_t	ft_strlen(char *s);
+char	*join_strings(char *str, char *buff, int n_bytes);
 
-char	*ft_strjoin(char *str, char *buff);
+char	*parse_line(char *str, int len);
 
-char	*ft_get_line(char *str);
-
-char	*ft_new_str(char *str);
+char	*new_string(char *str, int len);
 
 #endif

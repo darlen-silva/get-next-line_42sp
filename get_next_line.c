@@ -6,13 +6,13 @@
 /*   By: dardo-na <dardo-na@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 22:01:59 by dardo-na          #+#    #+#             */
-/*   Updated: 2023/06/23 22:14:23 by dardo-na         ###   ########.fr       */
+/*   Updated: 2024/02/01 22:42:21 by dardo-na         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static char	*parse_string_from_read(int fd, char *str)
+static char	*string_from_read(int fd, char *str)
 {
 	char	*buff;
 	int		n_bytes;
@@ -44,7 +44,7 @@ char	*get_next_line(int fd)
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	str = parse_string_from_read(fd, str);
+	str = string_from_read(fd, str);
 	if (!str)
 		return (NULL);
 	len = 0;

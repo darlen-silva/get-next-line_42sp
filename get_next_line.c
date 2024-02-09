@@ -6,31 +6,41 @@
 /*   By: dardo-na <dardo-na@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 22:01:59 by dardo-na          #+#    #+#             */
-/*   Updated: 2024/02/01 22:42:21 by dardo-na         ###   ########.fr       */
+/*   Updated: 2024/02/08 22:51:14 by dardo-na         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include <fcntl.h>
+#include <stdio.h>
 
 static char	*string_from_read(int fd, char *str)
 {
 	char	*buff;
-	int		n_bytes;
+	ssize_t	bytes;
+	size_t	i;
+	size_t	n;
+	int		c;
 
-	buff = malloc((BUFFER_SIZE + 1) * sizeof(char));
+	buff = (char *)malloc((BUFFER_SIZE + 1) * sizeof(*buff));
 	if (!buff)
 		return (NULL);
-	n_bytes = 1;
-	while (!ft_strchr(str, '\n') && n_bytes != 0)
+	n = 0;
+	bytes = 1;
+	c = 0;
+	while (bytes > 0 && c != '\n')
 	{
-		n_bytes = read(fd, buff, BUFFER_SIZE);
-		if (n_bytes == -1)
+		i = 0;
+		while (i < BUFFER_SIZE && bytes > 0 && c != '\n')
 		{
-			free(buff);
-			return (NULL);
+			bytes = read(fd, &c, 1);
+			if (bytes <= 0)
+				break ;
+			buff[i++] = c;
+			n++;
 		}
-		buff[n_bytes] = '\0';
-		str = join_strings(str, buff, n_bytes);
+		buff[i] = '\0';
+		str = join_strings(str, buff, n + i);
 	}
 	free(buff);
 	return (str);
@@ -39,18 +49,31 @@ static char	*string_from_read(int fd, char *str)
 char	*get_next_line(int fd)
 {
 	char		*line;
-	int			len;
 	static char	*str;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	str = string_from_read(fd, str);
-	if (!str)
+	if (str == NULL)
 		return (NULL);
-	len = 0;
-	while (str[len] && str[len] != '\n')
-		len++;
-	line = parse_line(str, len);
-	str = new_string(str, len);
+	line = str;
+	str = NULL;
 	return (line);
 }
+/*
+int	main(void)
+{
+	char *buff;
+	int fd = open("./big.text", O_RDONLY);
+
+	while (1)
+	{
+		buff = get_next_line(fd);
+		if (buff == NULL)
+			break;
+		printf("%s", buff);
+		free(buff);
+	}
+	close(fd);
+	return (0);
+} */

@@ -6,7 +6,7 @@
 /*   By: dardo-na <dardo-na@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 22:02:45 by dardo-na          #+#    #+#             */
-/*   Updated: 2024/02/08 22:48:20 by dardo-na         ###   ########.fr       */
+/*   Updated: 2024/02/09 23:12:07 by dardo-na         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,6 @@ char	*join_strings(char *left_str, char *buff, size_t len)
 	new_str[i] = '\0';
 	if (left_str != NULL)
 		free(left_str);
+	left_str = NULL;
 	return (new_str);
 }

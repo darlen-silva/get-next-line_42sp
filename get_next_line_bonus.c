@@ -3,54 +3,74 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dardo-na <dardo-na@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dardo-na <dardo-na@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/11 22:01:59 by dardo-na          #+#    #+#             */
-/*   Updated: 2023/06/23 23:02:31 by dardo-na         ###   ########.fr       */
+/*   Created: 2024/02/09 17:39:00 by dardo-na          #+#    #+#             */
+/*   Updated: 2024/02/10 18:02:47 by dardo-na         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static char	*parse_string_from_read(int fd, char *str)
-{
-	char	*buff;
-	int		n_bytes;
-
-	buff = malloc((BUFFER_SIZE + 1) * sizeof(char));
-	if (!buff)
-		return (NULL);
-	n_bytes = 1;
-	while (!ft_strchr(str, '\n') && n_bytes != 0)
-	{
-		n_bytes = read(fd, buff, BUFFER_SIZE);
-		if (n_bytes == -1)
-		{
-			free(buff);
-			return (NULL);
-		}
-		buff[n_bytes] = '\0';
-		str = join_strings(str, buff, n_bytes);
-	}
-	free(buff);
-	return (str);
-}
+static char	*string_from_read(int fd, char *buff, char *str);
 
 char	*get_next_line(int fd)
 {
 	char		*line;
-	int			len;
+	char		*buff;
 	static char	*str[1024];
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	str[fd] = parse_string_from_read(fd, str[fd]);
-	if (!str[fd])
+	buff = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
+	if (!buff)
 		return (NULL);
-	len = 0;
-	while (str[fd][len] && str[fd][len] != '\n')
-		len++;
-	line = parse_line(str[fd], len);
-	str[fd] = new_string(str[fd], len);
+	str[fd] = string_from_read(fd, buff, str[fd]);
+	if (str[fd] == NULL)
+		return (NULL);
+	line = str[fd];
+	str[fd] = NULL;
 	return (line);
+}
+
+static	size_t	read_line(int fd, char *buff, ssize_t *bytes, int *c)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < BUFFER_SIZE && *c != '\n')
+	{
+		*bytes = read(fd, c, 1);
+		if (*bytes <= 0)
+			break ;
+		buff[i++] = *c;
+	}
+	buff[i] = '\0';
+	return (i);
+}
+
+static char	*string_from_read(int fd, char *buff, char *str)
+{
+	size_t	n;
+	int		c;
+	ssize_t	bytes;
+
+	n = 0;
+	c = 0;
+	bytes = 1;
+	while (bytes > 0 && c != '\n')
+	{
+		n += read_line(fd, buff, &bytes, &c);
+		if (n == 0)
+			break ;
+		str = join_strings(str, buff, n);
+		if (str == NULL)
+		{
+			free(buff);
+			return (NULL);
+		}
+	}
+	free(buff);
+	buff = NULL;
+	return (str);
 }
